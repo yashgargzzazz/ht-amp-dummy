@@ -1,0 +1,7 @@
+.vscode
+contentScript.js
+final.js
+index.html
+manifest.json
+tampermonkey_inject.user.js
+index.js
