@@ -41,6 +41,7 @@ const injectPrice = () => {
       'Content-Type': 'application/json',
     },
     body: raw,
+    mode: 'no-cors',
   };
 
   // call api
