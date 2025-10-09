@@ -49,6 +49,7 @@ const injectPrice = () => {
     .then((data) => {
       for (let url in data) {
         const ourDiv = document.getElementById(url);
+        if (!ourDiv) continue;
         ourDiv.innerHTML = `<h2 style="color: blue; margin: 10px">Price: ₹${data[url].price}</h2>`;
       }
     });
