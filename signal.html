@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ⚡ lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1,initial-scale=1"
+    />
     <title>Signal Demo Chip</title>
-    <style>
+    <link rel="canonical" href="signal.html" />
+    <style amp-boilerplate>
       body {
         padding: 0;
         margin: 0;
@@ -55,17 +59,76 @@
         width: 16px;
       }
     </style>
+    <style amp-boilerplate>
+      body {
+        -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+      }
+      @-webkit-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-moz-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-ms-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-o-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+    </style>
+    <noscript>
+      <style amp-boilerplate>
+        body {
+          -webkit-animation: none;
+          -moz-animation: none;
+          -ms-animation: none;
+          animation: none;
+        }
+      </style>
+    </noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
   </head>
   <body style="background-color: gray">
     <div id="signal_container">
-      <img
+      <amp-img
         src="https://yashgargzzazz.github.io/ht-amp-dummy/assets/zzazz-logo.svg"
         width="20"
         height="20"
-        layout="responsive"
+        layout="fixed"
         alt="zzazz-logo"
       >
-      </img>
+      </amp-img>
 
       <h2 id="price">
         7.30
@@ -73,20 +136,15 @@
       </h2>
 
       <div id="signal_trend">
-        <img
+        <amp-img
           src="https://yashgargzzazz.github.io/ht-amp-dummy/assets/up.svg"
           width="10"
           height="10"
-          layout="responsive"
+          layout="fixed"
           alt="up-trend"
         >
-        </img>
+        </amp-img>
       </div>
     </div>
-
-    
-
-
-    
   </body>
 </html>
