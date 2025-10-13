@@ -84,11 +84,12 @@ function createAmpSignalDiv() {
 `;
 
   // Create the first image (logo)
-  const logoImg = document.createElement('img');
+  const logoImg = document.createElement('amp-img');
   logoImg.src =
     'https://yashgargzzazz.github.io/ht-amp-dummy/assets/zzazz-logo.svg';
-  logoImg.width = 20;
-  logoImg.height = 20;
+  logoImg.setAttribute('width', '20');
+  logoImg.setAttribute('height', '20');
+  logoImg.setAttribute('layout', 'fixed');
   logoImg.alt = 'zzazz-logo';
   logoImg.style.display = 'block';
   container.appendChild(logoImg);
@@ -128,10 +129,11 @@ function createAmpSignalDiv() {
 `;
 
   // Create the trend icon image
-  const trendImg = document.createElement('img');
+  const trendImg = document.createElement('amp-img');
   trendImg.src = 'https://yashgargzzazz.github.io/ht-amp-dummy/assets/up.svg';
-  trendImg.width = 10;
-  trendImg.height = 10;
+  trendImg.setAttribute('width', '10');
+  trendImg.setAttribute('height', '10');
+  trendImg.setAttribute('layout', 'fixed');
   trendImg.alt = 'up-trend';
   trendImg.style.display = 'block';
 
