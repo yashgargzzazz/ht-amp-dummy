@@ -7,7 +7,7 @@ console.log(
   'inject.js loaded — not used for AMP. If you are testing non-AMP, uncomment the code below.'
 );
 
-const injectPrice = () => {
+const getPriceJson = () => {
   console.log('ran the inject price function');
   const articleTags = document.getElementsByClassName('storyLink articleClick');
 
@@ -60,5 +60,5 @@ const injectPrice = () => {
 
 // poll this function so that the price updates after every 2 seconds
 setInterval(() => {
-  injectPrice();
+  getPriceJson();
 }, 1000);
