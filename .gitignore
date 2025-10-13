@@ -5,3 +5,4 @@ index.html
 manifest.json
 tampermonkey_inject.user.js
 index.js
+.DS_Store
