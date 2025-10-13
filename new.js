@@ -18,9 +18,8 @@ const injectPrice = () => {
 
     if (existingPriceDiv && existingPriceDiv.id === articleUrl) break;
 
-    const priceDiv = document.createElement('div');
+    const priceDiv = createAmpSignalDiv();
     priceDiv.id = articleUrl;
-    priceDiv.innerHTML = `<h2 style="color: blue; margin: 10px">Price: ₹${0}</h2>`;
 
     //render this div below the article link after the updated date
     tag.parentNode.insertBefore(priceDiv, tag.nextSibling);
@@ -50,62 +49,94 @@ const injectPrice = () => {
       for (let url in data) {
         const ourDiv = document.getElementById(url);
         if (!ourDiv) continue;
-        ourDiv.innerHTML = `<h2 style="color: blue; margin: 10px">Price: ₹${data[url].price}</h2>`;
+        const h2 = ourDiv.querySelector('h2');
+        h2.textContent = data[url].price?.toFixed(2);
+        const qapSpan = document.createElement('span');
+        qapSpan.style.cssText = `
+          font-size: 10px;
+          font-weight: 500;
+        `;
+        qapSpan.textContent = ' QAP';
+        h2.appendChild(qapSpan);
       }
     });
 };
+
+function createAmpSignalDiv() {
+  // Create the outer container
+  const container = document.createElement('div');
+  container.style.cssText = `
+  padding: 6px 12px;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  width: fit-content;
+  height: fit-content;
+  font-family: 'Inter', sans-serif;
+`;
+
+  // Create the first image (logo)
+  const logoImg = document.createElement('img');
+  logoImg.src =
+    'https://yashgargzzazz.github.io/ht-amp-dummy/assets/zzazz-logo.svg';
+  logoImg.width = 20;
+  logoImg.height = 20;
+  logoImg.alt = 'zzazz-logo';
+  logoImg.style.display = 'block';
+  container.appendChild(logoImg);
+
+  // Create the h2 element with span inside
+  const h2 = document.createElement('h2');
+  h2.style.cssText = `
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+`;
+  h2.textContent = `0.00`;
+
+  const qapSpan = document.createElement('span');
+  qapSpan.style.cssText = `
+  font-size: 10px;
+  font-weight: 500;
+`;
+  qapSpan.textContent = ' QAP';
+
+  h2.appendChild(qapSpan);
+  container.appendChild(h2);
+
+  // Create the trend icon wrapper
+  const trendWrapper = document.createElement('div');
+  trendWrapper.style.cssText = `
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #2aba7e33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+`;
+
+  // Create the trend icon image
+  const trendImg = document.createElement('img');
+  trendImg.src = 'https://yashgargzzazz.github.io/ht-amp-dummy/assets/up.svg';
+  trendImg.width = 10;
+  trendImg.height = 10;
+  trendImg.alt = 'up-trend';
+  trendImg.style.display = 'block';
+
+  trendWrapper.appendChild(trendImg);
+  container.appendChild(trendWrapper);
+
+  return container;
+}
 
 // poll this function so that the price updates after every 2 seconds
 setInterval(() => {
   injectPrice();
 }, 1000);
-
-// const wrapBodyBtn = document.getElementById('wrap_body_in_amp_script');
-// wrapBodyBtn.addEventListener('click', () => {
-//   const body = document.body;
-//   const ampScript = document.createElement('amp-script');
-//   ampScript.setAttribute('width', '100%');
-//   ampScript.setAttribute('height', '100%');
-//   ampScript.setAttribute('src', 'index.js');
-
-//   // Move all existing body children into the new amp-script element
-//   while (body.firstChild) {
-//     ampScript.appendChild(body.firstChild);
-//   }
-
-//   // Append the new amp-script element to the body
-//   body.appendChild(ampScript);
-// });
-
-// const injectPriceBtn = document.getElementById('inject_price');
-
-// injectPriceBtn.addEventListener('click', () => injectPrice());
-
-/*
-(function () {
-  function doInject() {
-    try {
-      const script = document.createElement("script");
-      script.type = "module";
-      script.src = "widget.js" + `?${Date.now()}`;
-
-      const target = document.body || document.head || document.documentElement;
-      target.append(script);
-
-      const style = document.createElement("style");
-      style.type = "text/css";
-      style.id = "zzazz_dynamic_css";
-      style.textContent = `\n .zzazz-popup {\n    padding: 5px 10px;}\n`;
-      (document.head || document.documentElement).appendChild(style);
-    } catch (err) {
-      console.error('inject.js failed to inject:', err);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', doInject);
-  } else {
-    doInject();
-  }
-})();
-*/
