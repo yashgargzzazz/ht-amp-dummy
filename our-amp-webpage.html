@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta
       name="amp-script-src"
-      content="sha384-4Ri78sFx2CCS9WknxnCC4c5tlHKLQC6EuQqcC4xMXQ1WlGWISRdsMO7yborAdeFa sha384--N9GzpDUzE9HnA2xybkGQ22DjZa5pGY-9P1b1oQ0EG2Lw0gCLvxR6724HHWAYF_m"
+      content="sha384-4Ri78sFx2CCS9WknxnCC4c5tlHKLQC6EuQqcC4xMXQ1WlGWISRdsMO7yborAdeFa sha384--N9GzpDUzE9HnA2xybkGQ22DjZa5pGY-9P1b1oQ0EG2Lw0gCLvxR6724HHWAYF_m sha384-vPvLI1gKQ3d8DI1RGaEkq4B1eYkPWck6UPnCJuxo3_UJgrPTdCro0H3sHGYel8Ul"
     />
     <style amp-boilerplate>
       body {
@@ -68,11 +68,28 @@
       </style></noscript
     >
     <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script
+      async
+      custom-element="amp-analytics"
+      src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
+    ></script>
 
     <script
       async
       custom-element="amp-script"
       src="https://cdn.ampproject.org/v0/amp-script-0.1.js"
+    ></script>
+
+    <script
+      async
+      custom-element="amp-bind"
+      src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"
+    ></script>
+
+    <script
+      async
+      custom-element="amp-auto-ads"
+      src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
     ></script>
 
     <style amp-custom>
@@ -91,15 +108,57 @@
     <button on="tap:hello.show">shoe AMPHTML World!</button>
     <!-- <button id="wrap_body_in_amp_script">Wrap body in amp script</button> -->
 
-    <amp-script
-      width="1000px"
-      height="2000px"
-      src="https://yashgargzzazz.github.io/ht-amp-dummy/new.js"
-    >
+    <amp-script width="1000px" height="2000px" src="new.js">
       <button>change content</button>
       <h1 id="inside_amp">inside amp script - unchanged</h1>
 
       <!-- ht article -->
+      <amp-analytics type="custom">
+        <script type="application/json">
+          {
+            "requests": {
+              "sendEvent": "https://a.zzazz.com/event"
+            },
+            "triggers": {
+              "trackPageView": {
+                "on": "visible",
+                "request": "sendEvent",
+                "vars": {
+                  "type": "pageview",
+                  "url": "${canonicalUrl}",
+                  "referrer": "${documentReferrer}",
+                  "device": "${screenWidth}x${screenHeight}"
+                }
+              },
+              "trackClick": {
+                "on": "click",
+                "selector": "#my-button",
+                "request": "sendEvent",
+                "vars": {
+                  "type": "click",
+                  "element": "cta-button",
+                  "page_url": "${canonicalUrl}"
+                }
+              },
+              "trackHover": {
+                "on": "mouseover",
+                "selector": ".article-hover",
+                "request": "sendEvent",
+                "vars": {
+                  "type": "hover",
+                  "url": "${canonicalUrl}"
+                }
+              }
+            },
+            "transport": {
+              "beacon": true,
+              "xhrpost": true,
+              "image": false
+            }
+          }
+        </script>
+      </amp-analytics>
+
       <div
         class="cartHolder listView track timeAgo"
         data-vars-cardtype="top-news"
