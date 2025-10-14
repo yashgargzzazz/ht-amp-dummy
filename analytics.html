@@ -1,0 +1,37 @@
+<amp-analytics id="main-analytics">
+  <script type="application/json">
+    {
+      "requests": {
+        "baseUrl": "https://a.zzazz.com/event",
+        "pageview": "${baseUrl}",
+        "poll": "${baseUrl}"
+      },
+      "vars": {
+        "type": "default"
+      },
+      "extraUrlParams": {
+        "url": "${documentReferrer}",
+        "device": {
+          "width": "${screenWidth}",
+          "height": "${screenHeight}"
+        },
+        "type": "${type}"
+      },
+      "triggers": {
+        "pageview": {
+          "on": "visible",
+          "request": "pageview",
+          "vars": {
+            "type": "pageview"
+          }
+        }
+      },
+      "transport": {
+        "beacon": false,
+        "xhrpost": true,
+        "useBody": true,
+        "image": false
+      }
+    }
+  </script>
+</amp-analytics>
