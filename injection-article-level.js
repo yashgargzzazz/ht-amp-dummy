@@ -27,7 +27,7 @@ const getPriceJson = () => {
     ampScript.appendChild(priceDiv);
 
     //render this div below the article link after the updated date
-    tag.parentNode.insertBefore(ampScript, tag.nextSibling);
+    tag.parentNode.appendChild(priceDiv);
   }
 
   const articleUrls = Array.from(articleTags).map((tag) =>
@@ -81,6 +81,7 @@ function createAmpSignalDiv() {
   width: fit-content;
   height: fit-content;
   font-family: 'Inter', sans-serif;
+  margin-top: 12px;
 `;
 
   // Create the first image (logo)
@@ -142,7 +143,6 @@ function createAmpSignalDiv() {
 
   return container;
 }
-
 // poll this function so that the price updates after every 2 seconds
 setInterval(() => {
   getPriceJson();

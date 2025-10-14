@@ -22,7 +22,7 @@ const injectPrice = () => {
     priceDiv.id = articleUrl;
 
     //render this div below the article link after the updated date
-    tag.parentNode.insertBefore(priceDiv, tag.nextSibling);
+    tag.parentNode.appendChild(priceDiv);
   }
 
   const articleUrls = Array.from(articleTags).map((tag) =>
@@ -76,6 +76,7 @@ function createAmpSignalDiv() {
   width: fit-content;
   height: fit-content;
   font-family: 'Inter', sans-serif;
+  margin-top: 12px;
 `;
 
   // Create the first image (logo)
