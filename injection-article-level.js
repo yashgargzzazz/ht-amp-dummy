@@ -13,25 +13,6 @@ const injectPriceArticleLevel = () => {
   const liveMintTags = document.getElementsByClassName('ga4ArticleClick');
   const articleTags = [...htTags, ...liveMintTags];
 
-  // create our divs so that we can inject price inside them
-  for (let tag of articleTags) {
-    const articleUrl = tag.getAttribute('href');
-    const existingPriceDiv = document.getElementById(articleUrl);
-
-    if (existingPriceDiv && existingPriceDiv.id === articleUrl) break;
-
-    const ampScript = document.createElement('amp-script');
-    ampScript.setAttribute('src', 'new-article-level.js');
-
-    const priceDiv = createAmpSignalDiv();
-    priceDiv.id = articleUrl;
-
-    ampScript.appendChild(priceDiv);
-
-    //render this div below the article link after the updated date
-    tag.parentNode.appendChild(priceDiv);
-  }
-
   const articleUrls = Array.from(articleTags).map((tag) =>
     tag.getAttribute('href')
   );
@@ -53,11 +34,22 @@ const injectPriceArticleLevel = () => {
   fetch('https://v.zzazz.com/v2/price', requestOptions)
     .then((response) => response.json())
     .then((data) => {
-      for (let url in data) {
-        const ourDiv = document.getElementById(url);
-        if (!ourDiv) continue;
-        const h2 = ourDiv.querySelector('h2');
-        h2.textContent = data[url].price?.toFixed(2);
+      for (let tag of articleTags) {
+        const articleUrl = tag.getAttribute('href');
+        const priceData = data[articleUrl];
+        // Only inject if price exists and is not 0
+        if (!priceData || !priceData.price || priceData.price === 0) continue;
+
+        let existingPriceDiv = document.getElementById(articleUrl);
+        if (!existingPriceDiv) {
+          const priceDiv = createAmpSignalDiv();
+          priceDiv.id = articleUrl;
+          tag.parentNode.appendChild(priceDiv);
+          existingPriceDiv = priceDiv;
+        }
+
+        const h2 = existingPriceDiv.querySelector('h2');
+        h2.textContent = priceData.price?.toFixed(2);
         const qapSpan = document.createElement('span');
         qapSpan.style.cssText = `
           font-size: 10px;
