@@ -7,9 +7,11 @@ console.log(
   'inject.js loaded — not used for AMP. If you are testing non-AMP, uncomment the code below.'
 );
 
-const getPriceJson = () => {
+const injectPriceArticleLevel = () => {
   console.log('ran the inject price function');
-  const articleTags = document.getElementsByClassName('storyLink articleClick');
+  const htTags = document.getElementsByClassName('storyLink articleClick');
+  const liveMintTags = document.getElementsByClassName('ga4ArticleClick');
+  const articleTags = [...htTags, ...liveMintTags];
 
   // create our divs so that we can inject price inside them
   for (let tag of articleTags) {
@@ -80,7 +82,7 @@ function createAmpSignalDiv() {
   background-color: white;
   width: fit-content;
   height: fit-content;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif !important;
   margin-top: 12px;
 `;
 
@@ -145,5 +147,5 @@ function createAmpSignalDiv() {
 }
 // poll this function so that the price updates after every 2 seconds
 setInterval(() => {
-  getPriceJson();
+  injectPriceArticleLevel();
 }, 1000);

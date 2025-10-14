@@ -9,7 +9,9 @@ console.log(
 
 const injectPrice = () => {
   console.log('ran the inject price function');
-  const articleTags = document.getElementsByClassName('storyLink articleClick');
+  const htTags = document.getElementsByClassName('storyLink articleClick');
+  const liveMintTags = document.getElementsByClassName('ga4ArticleClick');
+  const articleTags = [...htTags, ...liveMintTags];
 
   // create our divs so that we can inject price inside them
   for (let tag of articleTags) {
@@ -75,7 +77,7 @@ function createAmpSignalDiv() {
   background-color: white;
   width: fit-content;
   height: fit-content;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif !important;
   margin-top: 12px;
 `;
 
