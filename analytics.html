@@ -24,6 +24,23 @@
           "vars": {
             "type": "pageview"
           }
+        },
+        "pollEvent": {
+          "on": "timer",
+          "timerSpec": {
+            "interval": 10,
+            "immediate": false,
+            "stopSpec": {
+              "on": "hidden"
+            }
+          },
+          "request": "poll",
+          "vars": {
+            "type": "poll"
+          },
+          "extraUrlParams": {
+            "id": "test"
+          }
         }
       },
       "transport": {
