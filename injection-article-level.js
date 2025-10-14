@@ -9,16 +9,13 @@ console.log(
 
 const injectPriceArticleLevel = () => {
   console.log('ran the inject price function');
-  const htTags = document.getElementsByClassName('storyLink articleClick');
-  const liveMintTags = document.getElementsByClassName('ga4ArticleClick');
-  const articleTags = [...htTags, ...liveMintTags];
+  const signalDiv = document.getElementById('zzazz-signal-div');
+  const articleUrl = signalDiv.getAttribute('data-url');
 
-  const articleUrls = Array.from(articleTags).map((tag) =>
-    tag.getAttribute('href')
-  );
+  console.log({ signalDiv: signalDiv.textContent });
 
   const raw = JSON.stringify({
-    urls: articleUrls,
+    urls: [articleUrl],
     currency: 'inr',
   });
 
@@ -34,20 +31,11 @@ const injectPriceArticleLevel = () => {
   fetch('https://v.zzazz.com/v2/price', requestOptions)
     .then((response) => response.json())
     .then((data) => {
-      for (let tag of articleTags) {
-        const articleUrl = tag.getAttribute('href');
-        const priceData = data[articleUrl];
-        // Only inject if price exists and is not 0
-        if (!priceData || !priceData.price || priceData.price === 0) continue;
+      const priceData = data[articleUrl];
 
-        let existingPriceDiv = document.getElementById(articleUrl);
-        if (!existingPriceDiv) {
-          const priceDiv = createAmpSignalDiv();
-          priceDiv.id = articleUrl;
-          tag.parentNode.appendChild(priceDiv);
-          existingPriceDiv = priceDiv;
-        }
-
+      // if div is already present, do not create again, just update the price
+      const existingPriceDiv = document.getElementById(articleUrl);
+      if (existingPriceDiv) {
         const h2 = existingPriceDiv.querySelector('h2');
         h2.textContent = priceData.price?.toFixed(2);
         const qapSpan = document.createElement('span');
@@ -57,7 +45,22 @@ const injectPriceArticleLevel = () => {
         `;
         qapSpan.textContent = ' QAP';
         h2.appendChild(qapSpan);
+        return;
       }
+
+      const priceDiv = createAmpSignalDiv();
+      priceDiv.id = articleUrl;
+      const h2 = priceDiv.querySelector('h2');
+      h2.textContent = priceData.price?.toFixed(2);
+      const qapSpan = document.createElement('span');
+      qapSpan.style.cssText = `
+          font-size: 10px;
+          font-weight: 500;
+        `;
+      qapSpan.textContent = ' QAP';
+      h2.appendChild(qapSpan);
+
+      signalDiv.parentNode.appendChild(priceDiv);
     });
 };
 
