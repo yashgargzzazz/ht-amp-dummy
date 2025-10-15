@@ -67,19 +67,17 @@ const injectPrice = () => {
 function createAmpSignalDiv() {
   // Create the outer container
   const container = document.createElement('div');
-  container.style.cssText = `
-  padding: 6px 12px;
-  border: 1px solid #333333;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: white;
-  width: fit-content;
-  height: fit-content;
-  font-family: 'Inter', sans-serif !important;
-  margin-top: 12px;
-`;
+  container.style.fontFamily = "'Inter', sans-serif";
+  container.style.marginTop = '12px';
+  container.style.padding = '6px 12px';
+  container.style.border = '1px solid #333333';
+  container.style.borderRadius = '8px';
+  container.style.display = 'flex';
+  container.style.alignItems = 'center';
+  container.style.gap = '8px';
+  container.style.backgroundColor = 'white';
+  container.style.width = 'fit-content';
+  container.style.height = 'fit-content';
 
   // Create the first image (logo)
   const logoImg = document.createElement('amp-img');
