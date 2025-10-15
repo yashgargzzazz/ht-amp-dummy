@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta
       name="amp-script-src"
-      content="sha384-4Ri78sFx2CCS9WknxnCC4c5tlHKLQC6EuQqcC4xMXQ1WlGWISRdsMO7yborAdeFa sha384--N9GzpDUzE9HnA2xybkGQ22DjZa5pGY-9P1b1oQ0EG2Lw0gCLvxR6724HHWAYF_m sha384-vPvLI1gKQ3d8DI1RGaEkq4B1eYkPWck6UPnCJuxo3_UJgrPTdCro0H3sHGYel8Ul"
+      content="sha384-vPvLI1gKQ3d8DI1RGaEkq4B1eYkPWck6UPnCJuxo3_UJgrPTdCro0H3sHGYel8Ul sha384-4Ri78sFx2CCS9WknxnCC4c5tlHKLQC6EuQqcC4xMXQ1WlGWISRdsMO7yborAdeFa sha384--N9GzpDUzE9HnA2xybkGQ22DjZa5pGY-9P1b1oQ0EG2Lw0gCLvxR6724HHWAYF_m"
     />
     <style amp-boilerplate>
       body {
@@ -68,40 +68,11 @@
       </style></noscript
     >
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <script
-      async
-      custom-element="amp-analytics"
-      src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
-    ></script>
 
     <script
       async
       custom-element="amp-script"
       src="https://cdn.ampproject.org/v0/amp-script-0.1.js"
-    ></script>
-
-    <script
-      async
-      custom-element="amp-bind"
-      src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"
-    ></script>
-
-    <script
-      async
-      custom-element="amp-auto-ads"
-      src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
-    ></script>
-
-    <script
-      async
-      custom-element="amp-storage"
-      src="https://cdn.ampproject.org/v0/amp-storage-1.0.js"
-    ></script>
-
-    <script
-      async
-      custom-element="amp-state"
-      src="https://cdn.ampproject.org/v0/amp-state-0.1.js"
     ></script>
 
     <style amp-custom>
@@ -118,11 +89,17 @@
     <h1 id="hello">AMPHTML World!</h1>
     <button on="tap:hello.hide">hide AMPHTML World!</button>
     <button on="tap:hello.show">shoe AMPHTML World!</button>
+    <!-- <button id="wrap_body_in_amp_script">Wrap body in amp script</button> -->
 
-    <amp-script width="1000px" height="2000px" src="new.js">
+    <amp-script
+      width="1000px"
+      height="9999px"
+      src="https://yashgargzzazz.github.io/ht-amp-dummy/new.js"
+    >
       <button>change content</button>
       <h1 id="inside_amp">inside amp script - unchanged</h1>
 
+      <!-- ht article -->
       <div
         class="cartHolder listView track timeAgo"
         data-vars-cardtype="top-news"
