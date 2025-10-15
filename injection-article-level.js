@@ -7,6 +7,86 @@ console.log(
   'inject.js loaded — not used for AMP. If you are testing non-AMP, uncomment the code below.'
 );
 
+const BASE_URL = 'https://beta.a.zzazz.com/event';
+
+// Helper function to get device dimensions
+function getDeviceDimensions() {
+  return {
+    width:
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth,
+    height:
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight,
+  };
+}
+
+// Pageview API call
+async function sendPageview({ url }) {
+  const device = getDeviceDimensions();
+  const user_id = localStorage.getItem('user_id') || '';
+
+  const payload = {
+    url: url || '',
+    device: {
+      width: device.width,
+      height: device.height,
+    },
+    type: 'pageview',
+  };
+
+  try {
+    const response = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(user_id && { 'user-id': user_id }),
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      console.error('Pageview request failed:', response.status);
+    }
+    const json = await response.json();
+    localStorage.setItem('user_id', json.user_id);
+    localStorage.setItem('event_id', json.event_id);
+  } catch (error) {
+    console.error('Pageview error:', error);
+  }
+}
+
+// Poll API call
+async function sendPoll() {
+  const device = getDeviceDimensions();
+  const user_id = localStorage.getItem('user_id') || 'TEST_ID';
+  const event_id = localStorage.getItem('event_id') || 'TEST_ID';
+
+  const payload = {
+    type: 'poll',
+    id: event_id,
+  };
+
+  try {
+    const response = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'user-id': user_id,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      console.error('Poll request failed:', response.status);
+    }
+  } catch (error) {
+    console.error('Poll error:', error);
+  }
+}
+
 const injectPriceArticleLevel = () => {
   console.log('ran the inject price function');
   const signalDiv = document.getElementById('zzazz-signal-div');
@@ -144,3 +224,11 @@ function createAmpSignalDiv() {
 setInterval(() => {
   injectPriceArticleLevel();
 }, 1000);
+
+// Call sendPageview once when script loads
+sendPageview({ url: 'https://hindustantimes.com/amp' });
+
+// Poll API call every 10 seconds
+setInterval(() => {
+  sendPoll();
+}, 10000);
