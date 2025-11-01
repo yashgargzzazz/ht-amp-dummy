@@ -181,14 +181,7 @@
       });
     }
 
-    // function pollEvent() {
-    //   sendPollEvent().finally(() => {
-    //     setTimeout(pollEvent, 6000);
-    //   });
-    // }
-
     setTimeout(poll, 3000);
-    // setTimeout(pollEvent, 6000);
   }
 
   // ---- Bootstrap ----
