@@ -252,12 +252,12 @@
   }
 
   // ---- Event Listeners (Try to attach) ----
-  const debouncedScroll = debounce(sendScrollEvent, 500);
-  // const debouncedClick = debounce(sendClickEvent, 300);
+  // const debouncedScroll = debounce(sendScrollEvent, 500);
+  const debouncedClick = debounce(sendClickEvent, 300);
 
   try {
     // Try to attach scroll listener
-    window.addEventListener('scroll', debouncedScroll, { passive: true });
+    // window.addEventListener('scroll', debouncedScroll, { passive: true });
     console.log('Scroll listener attached');
   } catch (err) {
     console.warn('Could not attach scroll listener:', err);
@@ -265,7 +265,7 @@
 
   try {
     // Try to attach click listener
-    // window.addEventListener('click', debouncedClick, { passive: true });
+    window.addEventListener('click', debouncedClick, { passive: true });
     console.log('Click listener attached');
   } catch (err) {
     console.warn('Could not attach click listener:', err);
