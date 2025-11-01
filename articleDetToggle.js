@@ -265,7 +265,7 @@
 
   try {
     // Try to attach click listener
-    window.addEventListener('click', debouncedClick, { passive: true });
+    // window.addEventListener('click', debouncedClick, { passive: true });
     console.log('Click listener attached');
   } catch (err) {
     console.warn('Could not attach click listener:', err);
