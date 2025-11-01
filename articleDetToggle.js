@@ -10,6 +10,7 @@
   let lastPrice = null;
   let widgetVisible = false;
   let isPriced = false;
+  let lastScrollTime = 0;
 
   // ---- Utils ----
   const getBrowserDimensions = () => ({
@@ -21,6 +22,17 @@
     width: window?.screen?.width || 0,
     height: window?.screen?.height || 0,
   });
+
+  // ---- Debounce Helper ----
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
 
   // ---- Event Sender (AMP-compatible) ----
   async function sendEvent(type, extraPayload = {}) {
@@ -71,6 +83,71 @@
     if (ok && data) {
       if (data.user_id) session.user_id = data.user_id;
       if (data.event_id) session.event_id = data.event_id;
+    }
+  }
+
+  // ---- Send scroll event ----
+  async function sendScrollEvent() {
+    const now = Date.now();
+    // Throttle scroll events to max once per 500ms
+    if (now - lastScrollTime < 500) return;
+    lastScrollTime = now;
+
+    try {
+      const payload = {
+        scrollPosition: window?.scrollY || 0,
+        browser: getBrowserDimensions(),
+        device: getDeviceDimensions(),
+      };
+      await sendEvent('scroll', payload);
+      console.log('Scroll event sent:', payload.scrollPosition);
+    } catch (err) {
+      console.error('Scroll event error:', err);
+    }
+  }
+
+  // ---- Send click event ----
+  function getElementUrl(el) {
+    if (!el) return null;
+
+    if (el.tagName === 'A' && el.href) return el.href;
+    if (el.tagName === 'BUTTON' && el.formAction) return el.formAction;
+    if (el.tagName === 'BUTTON' && el.getAttribute('data-url'))
+      return el.getAttribute('data-url');
+
+    // Manual fallback for closest()
+    let parent = el.parentNode;
+    while (parent) {
+      const tag = parent.tagName;
+      if (tag === 'A' && parent.href) return parent.href;
+      if (tag === 'BUTTON' && parent.formAction) return parent.formAction;
+      if (tag === 'BUTTON' && parent.getAttribute('data-url'))
+        return parent.getAttribute('data-url');
+      parent = parent.parentNode;
+    }
+
+    return null;
+  }
+
+  async function sendClickEvent(event) {
+    try {
+      const clickedEl = event?.target;
+      const payload = {
+        browser: getBrowserDimensions(),
+        device: getDeviceDimensions(),
+        element: {
+          tag: clickedEl?.tagName?.toLowerCase() || null,
+          url: getElementUrl(clickedEl) || null,
+          position: {
+            x: event?.pageX || 0,
+            y: event?.pageY || 0,
+          },
+        },
+      };
+      await sendEvent('click', payload);
+      console.log('Click event sent:', payload.element);
+    } catch (err) {
+      console.error('Click event error:', err);
     }
   }
 
@@ -172,6 +249,26 @@
     }
 
     setTimeout(poll, 3000);
+  }
+
+  // ---- Event Listeners (Try to attach) ----
+  const debouncedScroll = debounce(sendScrollEvent, 500);
+  const debouncedClick = debounce(sendClickEvent, 300);
+
+  try {
+    // Try to attach scroll listener
+    window.addEventListener('scroll', debouncedScroll, { passive: true });
+    console.log('Scroll listener attached');
+  } catch (err) {
+    console.warn('Could not attach scroll listener:', err);
+  }
+
+  try {
+    // Try to attach click listener
+    window.addEventListener('click', debouncedClick, { passive: true });
+    console.log('Click listener attached');
+  } catch (err) {
+    console.warn('Could not attach click listener:', err);
   }
 
   // ---- Bootstrap ----
