@@ -86,6 +86,16 @@
     }
   }
 
+  async function sendPollEvent() {
+    try {
+      await sendEvent('poll', {
+        id: session.event_id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // ---- Remote Enable Check ----
   async function isPillEnabled() {
     try {
@@ -171,7 +181,14 @@
       });
     }
 
+    function pollEvent() {
+      sendPollEvent().finally(() => {
+        setTimeout(pollEvent, 6000);
+      });
+    }
+
     setTimeout(poll, 3000);
+    setTimeout(pollEvent, 6000);
   }
 
   // ---- Bootstrap ----
