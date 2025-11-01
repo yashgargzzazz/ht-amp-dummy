@@ -86,16 +86,6 @@
     }
   }
 
-  async function sendPollEvent() {
-    try {
-      await sendEvent('poll', {
-        id: session.event_id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   // ---- Remote Enable Check ----
   async function isPillEnabled() {
     try {
