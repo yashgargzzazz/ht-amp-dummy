@@ -253,7 +253,7 @@
 
   // ---- Event Listeners (Try to attach) ----
   const debouncedScroll = debounce(sendScrollEvent, 500);
-  const debouncedClick = debounce(sendClickEvent, 300);
+  // const debouncedClick = debounce(sendClickEvent, 300);
 
   try {
     // Try to attach scroll listener
